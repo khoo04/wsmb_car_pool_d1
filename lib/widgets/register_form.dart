@@ -75,6 +75,7 @@ class _DriverRegisterFormState extends State<DriverRegisterForm> {
                       setState(() {});
                       widget.setImageToUpload(fileSelected!);
                     } else {
+                      Navigator.pop(context);
                       Helper.showSnackBar(context, "Action cancel");
                     }
                   },
@@ -89,6 +90,7 @@ class _DriverRegisterFormState extends State<DriverRegisterForm> {
                       setState(() {});
                       widget.setImageToUpload(fileSelected!);
                     } else {
+                      Navigator.pop(context);
                       Helper.showSnackBar(context, "Action cancel");
                     }
                   },
@@ -285,11 +287,12 @@ class _DriverRegisterFormState extends State<DriverRegisterForm> {
                   labelText: "Phone Number",
                   isDense: true,
                 ),
+                keyboardType: TextInputType.phone,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Phone number is required";
                   }
-                  if (RegExp(r'\d{3}-\d{8,10}').hasMatch(value)) {
+                  if (!RegExp(r'\d{3}-\d{7,9}').hasMatch(value)) {
                     return 'Please provide a phone number. Ex: 012-36202024';
                   }
                   return null;
@@ -320,12 +323,14 @@ class _DriverRegisterFormState extends State<DriverRegisterForm> {
               ),
               //Password
               TextFormField(
+                obscureText: true,
                 controller: widget.passwordTextController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Password",
                   labelText: "Password",
                   isDense: true,
+                  errorMaxLines: 3,
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -341,6 +346,7 @@ class _DriverRegisterFormState extends State<DriverRegisterForm> {
                 height: 10.0,
               ),
               TextFormField(
+                obscureText: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Confirm Password",
