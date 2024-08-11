@@ -8,6 +8,8 @@ class Driver {
   final String address;
   final String? imageUrl;
   final Vehicle vehicle;
+  final String role = "driver";
+  final String phone;
 
   Driver({
     required this.IC,
@@ -17,6 +19,7 @@ class Driver {
     required this.address,
     this.imageUrl,
     required this.vehicle,
+    required this.phone,
   });
 
   Map<String, dynamic> toJson() {
@@ -24,7 +27,9 @@ class Driver {
       "IC": IC,
       "name": name,
       "gender": gender,
+      "role": role,
       "email": email,
+      "phone": phone,
       "address": address,
       "imageUrl": imageUrl,
       "vehicle": vehicle.toJson(),
@@ -38,6 +43,7 @@ class Driver {
       gender: json["gender"],
       email: json["email"],
       address: json["address"],
+      phone: json["phone"],
       imageUrl: json["imageUrl"],
       vehicle: Vehicle.fromJson(json["vehicle"]),
     );

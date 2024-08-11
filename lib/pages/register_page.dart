@@ -85,6 +85,14 @@ class _RegisterPageState extends State<RegisterPage> {
           specialFeatures: _specialFeaturesTextController.text.trim(),
         );
 
+        bool isDuplicated = await DriverService.checkIsDuplicated(
+            _emailTextController.text.trim(), _icTextController.text.trim());
+
+        if (isDuplicated) {
+          Helper.showSnackBar(context, "User is already exist");
+          return;
+        }
+
         bool isSuccess = await AuthService.registerUser(
             _emailTextController.text.trim(),
             _passwordTextController.text.trim());
@@ -105,6 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
               gender: gender!,
               email: _emailTextController.text.trim(),
               address: _addressTextController.text.trim(),
+              phone: _phoneTextController.text.trim(),
               imageUrl: downloadUrl,
               vehicle: vehicleModel);
 
@@ -112,6 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
               await DriverService.createNewDriver(registerDriverModel);
           if (isSuccess) {
             Helper.showSnackBar(context, "Driver registered successfully");
+            Navigator.pop(context);
           } else {
             throw Exception("Unable to create driver in database!");
           }
@@ -142,6 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     borderRadius: BorderRadius.circular(12.0),
                     border: Border.all(color: Colors.black)),
                 child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: _pageController,
                   children: [
                     DriverRegisterForm(
